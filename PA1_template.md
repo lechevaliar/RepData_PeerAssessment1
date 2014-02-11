@@ -3,20 +3,33 @@ Reproducible research: Peer Assignment 1
 
 Loading and preprocessing the data
 
-```{r}
+
+```r
   data<-read.csv(unz("activity.zip", "activity.csv"), header=T)
   data$interval<-factor(data$interval)
   data$date<-as.Date(data$date,"%Y-%m-%d")
 ```
 
 What is mean total number of steps taken per day?
-```{r}
+
+```r
   hist(data$steps, xlab="Number of steps taken per day", col="lightgreen",
   main="Before imputing missing data")
+```
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+
+```r
   summary(data$steps) 
 ```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##     0.0     0.0     0.0    37.4    12.0   806.0    2304
+```
 What is the average daily activity pattern?
-```{r}
+
+```r
   library("reshape2")
   library("lattice")
   stepmelt<-melt(data,id="interval",measure.vars="steps")
@@ -28,12 +41,22 @@ What is the average daily activity pattern?
   ##plotting
   xyplot(steps~interval,data=stepcast,type="l",ylab="Number of steps taken per day",
          scales=list(x=list(at=at, labels=labels, rot=90)))
+```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+
+```r
   ##find maximum rows
   max<-as.character(stepcast[which.max(stepcast$steps),1])
   cat("the interval with maximum steps :", max)
 ```
+
+```
+## the interval with maximum steps : 835
+```
 Imputing missing values
-```{r}
+
+```r
   avg<-mean(data$steps,na.rm=T)
   idata<-data
   for (i in seq_len(nrow(idata))) {
@@ -41,10 +64,21 @@ Imputing missing values
   }
   hist(idata$steps, xlab="Number of steps taken per day", col="orange",
   main="After imputing missing data")
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
+```r
   summary(idata$steps)
 ```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     0.0     0.0     0.0    37.4    37.4   806.0
+```
 Are there differences in activity patterns between weekdays and weekends?
-```{r}
+
+```r
   idata$weekdays<-weekdays(idata$date)
   for (i in seq_len(nrow(idata))) {
     if(idata[i,4]=="Saturday"|idata[i,4]=="Sunday") idata[i,4]<-"weekend"
@@ -61,3 +95,5 @@ Are there differences in activity patterns between weekdays and weekends?
   xyplot(steps~interval|weekdays,data=stepcast2,type="l",ylab="Number of steps taken per day",
          scales=list(x=list(at=at2, labels=labels, rot=90)))
 ```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
