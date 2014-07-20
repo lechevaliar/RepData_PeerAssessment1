@@ -60,5 +60,6 @@ Are there differences in activity patterns between weekdays and weekends?
   labels <- round(seq(0, 2355, length.out=x.tick.number))
   ##plotting
   xyplot(steps~interval|weekdays,data=stepcast2,type="l",ylab="Number of steps taken per day",
-         scales=list(x=list(at=at2, labels=labels, rot=90)))
+         scales=list(x=list(at=at2, labels=labels, rot=90)),
+         main="average number of steps taken per 5-minute interval")
 ```
