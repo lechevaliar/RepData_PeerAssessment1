@@ -34,6 +34,7 @@ What is the average daily activity pattern?
 ```
 Imputing missing values
 ```{r}
+  ##imputing missing data using mean
   avg<-mean(data$steps,na.rm=T)
   idata<-data
   for (i in seq_len(nrow(idata))) {

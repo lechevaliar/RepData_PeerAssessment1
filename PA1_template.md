@@ -57,6 +57,7 @@ What is the average daily activity pattern?
 Imputing missing values
 
 ```r
+  ##imputing missing data using mean
   avg<-mean(data$steps,na.rm=T)
   idata<-data
   for (i in seq_len(nrow(idata))) {
@@ -93,7 +94,8 @@ Are there differences in activity patterns between weekdays and weekends?
   labels <- round(seq(0, 2355, length.out=x.tick.number))
   ##plotting
   xyplot(steps~interval|weekdays,data=stepcast2,type="l",ylab="Number of steps taken per day",
-         scales=list(x=list(at=at2, labels=labels, rot=90)))
+         scales=list(x=list(at=at2, labels=labels, rot=90)),
+         main="average number of steps taken per 5-minute interval across weekdays and weekends")
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
